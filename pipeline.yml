@@ -4,3 +4,4 @@ pipelines:
   - step:
       script:
       - bash ./gradlew build
+      - bash ./gradlew test
