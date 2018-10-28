@@ -1,7 +1,11 @@
 image: openjdk:8
 pipelines:
-  default:
-  - step:
-      script:
-      - bash ./gradlew build
-      - bash ./gradlew test
+  build:
+    stage: build
+    script:
+    - gradle build
+
+  test:
+    stage: test
+    script:
+    - gradle test
