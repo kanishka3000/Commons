@@ -1,19 +1,19 @@
-import org.apache.commons.lang3.Conversion;
-
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
 public class Test {
 
 
+    public static void main(String[] args) {
+        Result result = JUnitCore.runClasses(ConversionsTest.class,
+                SignedDataTypeTest.class,
+                UnsignedDataTypeTest.class);
 
-    @org.junit.Test
-    public void testing(){
+        for (Failure failure : result.getFailures()) {
+            System.out.println(failure.toString());
+        }
 
-        byte a = (byte) 0xFF;
-        System.out.println(a);
-
-        int val = 429496729;
-
+        System.out.println(result.wasSuccessful());
     }
 }

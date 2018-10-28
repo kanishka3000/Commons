@@ -77,6 +77,7 @@ public class Conversions {
         if(mostSignificant < (byte) 0) {
             byte[] twosComplimentReversed = fromTwosCompliment(bytes);
             val = unsignedBytesToInt(twosComplimentReversed);
+            val=val+1;
             val = val * -1;
         }
         else
@@ -87,6 +88,75 @@ public class Conversions {
         return val;
     }
 
+    public byte[] signedIntToBytes(int value, int byteSize){
+        byte[] output = new byte[byteSize];
+
+        byte[] processedBuffer = null;
+        ByteBuffer buffer = ByteBuffer.allocate(4);
+        if(value < 0){
+            int positiveValue = value * -1;
+
+            buffer.putInt(positiveValue);
+            byte[] data = buffer.array();
+            byte[] twosComplemented = fromTwosCompliment(data);
+
+            ByteBuffer buffer1 = ByteBuffer.wrap(twosComplemented);
+            int val = buffer1.getInt();
+            val =  val+1;
+
+            ByteBuffer buffer2 = ByteBuffer.allocate(4);
+            buffer2.putInt(val);
+            processedBuffer = buffer2.array();
+        }
+        else {
+            buffer.putInt(value);
+            processedBuffer = buffer.array();
+        }
+        int i = 3;
+        int j = byteSize  -1;
+        for(; i >=0 && j >=0; i--,j--){
+            byte bIn = processedBuffer[i];
+            output[j] = bIn;
+        }
+        return output;
+    }
+
+    public byte[] signedLongToBytes(long value, int byteSize) {
+
+        byte[] output = new byte[byteSize];
+
+
+        byte[] processedBuffer = null;
+        ByteBuffer buffer = ByteBuffer.allocate(8);
+        if(value < 0){
+            long positiveValue = value * -1;
+
+            buffer.putLong(positiveValue);
+            byte[] data = buffer.array();
+            byte[] twosComplemented = fromTwosCompliment(data);
+
+            ByteBuffer buffer1 = ByteBuffer.wrap(twosComplemented);
+            long val = buffer1.getLong();
+            val =  val+1;
+
+            ByteBuffer buffer2 = ByteBuffer.allocate(8);
+            buffer2.putLong(val);
+            processedBuffer = buffer2.array();
+        }
+        else {
+            buffer.putLong(value);
+            processedBuffer = buffer.array();
+        }
+        int i = 7;
+        int j = byteSize  -1;
+        for(; i >=0 && j >=0; i--,j--){
+            byte bIn = processedBuffer[i];
+            output[j] = bIn;
+        }
+        return output;
+    }
+
+
     public long signedBytesToLong(byte[] bytes){
         long val = 0;
         byte mostSignificant = bytes[0];
@@ -95,6 +165,7 @@ public class Conversions {
         if(mostSignificant < (byte) 0) {
             byte[] twosComplimentReversed = fromTwosCompliment(bytes);
             val = unsignedBytesToLong(twosComplimentReversed);
+            val = val + 1;
             val = val * -1;
         }
         else
@@ -115,7 +186,7 @@ public class Conversions {
         }
         //add one
         byte leastSignificant = converted[converted.length -1];
-        leastSignificant += 1;
+        //leastSignificant += 1;
         converted[converted.length -1] = leastSignificant;
 
         return converted;
