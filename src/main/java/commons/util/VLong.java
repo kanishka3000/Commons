@@ -17,6 +17,12 @@ public class VLong {
     private Conversions conversions = new Conversions();
     public VLong(byte[] bytes, boolean signed){
 
+        if(bytes.length > 8){
+            throw new IllegalArgumentException(String.format(
+                    "Byte count should be between 0 and 8 but was ",
+                    bytes.length));
+        }
+        
         this.signed = signed;
         if(signed == true){
             value = signedBytesToLong(bytes);
